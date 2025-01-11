@@ -1,18 +1,33 @@
+server:
+    port: 8080
+    error:
+        include-message: always
+    ssl:
+        key-store: classpath:auth.p12
+        key-store-password: segredo
+        key-store-type: pkcs12
+        key-alias: authorization
+        key-password: segredo
+
 application:
     security:
+        refresh-token-secret: o_rato_roeu_a_roupa_do_rei
+        access-token-secret: o_rato_roeu_a_roupa_do_rei
         allowed-origins: http://localhost:4200,http://localhost:3000,http://localhost:8080
 spring:
     application:
         name: exam
     datasource:
-        driverClassName: org.h2.Driver
-        password: password
-        url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-        username: sa
-    h2:
-        console:
-            enabled: true
+        url: jdbc:mysql://localhost:3306/authentication?useTimezone=true&serverTimezone=UTC
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: senha
+        validationQuery: SELECT 1
+        testWhileIdle: true
     jpa:
         hibernate:
             ddl-auto: update
+            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+
         show-sql: true
+        generate-ddl: true

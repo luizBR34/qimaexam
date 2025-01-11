@@ -13,9 +13,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 public class SecurityConfig {
-
     @Value("${application.security.allowed-origins}")
     private List<String> allowOrigins;
     @Bean
@@ -24,14 +25,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authz) -> authz
                         .anyRequest().permitAll()
                 ).requiresChannel(channel -> channel.anyRequest().requiresSecure())
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .httpBasic(withDefaults());
         return http.build();
-    }
-
-
-    @Bean
-    public JWTAuthenticationFilter jwtAuthenticationFilter() {
-        return new JWTAuthenticationFilter();
     }
 
 
